@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="FormStoreContainer" CdmEntityContainer="accountEntities">
+    <EntitySetMapping Name="form_detail">
+      <EntityTypeMapping TypeName="Form.form_detail">
+        <MappingFragment StoreEntitySet="form_detail">
+          <ScalarProperty Name="course" ColumnName="course" />
+          <ScalarProperty Name="form_id" ColumnName="form_id" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="form_master">
+      <EntityTypeMapping TypeName="Form.form_master">
+        <MappingFragment StoreEntitySet="form_master">
+          <ScalarProperty Name="enter_by" ColumnName="enter_by" />
+          <ScalarProperty Name="city" ColumnName="city" />
+          <ScalarProperty Name="state" ColumnName="state" />
+          <ScalarProperty Name="country" ColumnName="country" />
+          <ScalarProperty Name="mobile" ColumnName="mobile" />
+          <ScalarProperty Name="address" ColumnName="address" />
+          <ScalarProperty Name="email" ColumnName="email" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

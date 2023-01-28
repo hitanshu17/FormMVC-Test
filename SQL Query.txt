@@ -1,0 +1,20 @@
+CREATE TABLE form_master (
+	[id] [int] IDENTITY(1,1) PRIMARY KEY NOT NULL,
+	[name] [varchar](20) NULL,
+	[email] [varchar](50) NULL,
+	[address] [varchar](50) NULL,
+	[mobile] [int] NULL,
+	[country] [varchar](100) NULL,
+	[state] [varchar](100) NULL,
+	[city] [varchar](100) NULL,
+	[enter_by] [varchar] (50) NULL
+	);
+
+CREATE TABLE form_detail (
+	[id] [int] IDENTITY(1,1) PRIMARY KEY NOT NULL,
+	[form_id] [int] not null,
+	[course] [varchar](50) NULL,
+	);
+
+select * from form_master
+select * from form_detail

@@ -1,4 +1,5 @@
-﻿@{
+﻿@model IEnumerable<FormMVC.Models.form_master>
+@{
     ViewBag.Title = "Home Page";
 }
 
@@ -77,35 +78,49 @@
                     </tr>
                 </thead>
 
-                @*@foreach (var item in Model)
+                @foreach (var item in Model)
                 {
                     <tr style="text-align:center">
-                        <td>@Html.DisplayFor(modelItem => item.type)</td>
-                        <td>@Html.DisplayFor(modelItem => item.party_code)</td>
-                        <td>@Html.DisplayFor(modelItem => item.party_name)</td>
-                        <td>@Html.DisplayFor(modelItem => item.phone)</td>
-                        <td>@Html.DisplayFor(modelItem => item.address)</td>
+                        <td>@Html.DisplayFor(modelItem => item.name)</td>
                         <td>@Html.DisplayFor(modelItem => item.email)</td>
-                        <td>@Html.DisplayFor(modelItem => item.person)</td>
-                        <td>@Html.DisplayFor(modelItem => item.person_designation)</td>
-                        <td>@Html.DisplayFor(modelItem => item.remarks)</td>
-                        <td>@Html.DisplayFor(modelItem => item.aadhar_no)</td>
-                        <td>@Html.DisplayFor(modelItem => item.pan_no)</td>
-                        <td>@Html.DisplayFor(modelItem => item.gst_no)</td>
-                        <td>@Html.DisplayFor(modelItem => item.bank_name)</td>
-                        <td>@Html.DisplayFor(modelItem => item.acc_no)</td>
-                        <td>@Html.DisplayFor(modelItem => item.acc_name)</td>
-                        <td>@Html.DisplayFor(modelItem => item.IFSC)</td>
-                        <td>@Html.DisplayFor(modelItem => item.acc_type)</td>
-
+                        <td>@Html.DisplayFor(modelItem => item.address)</td>
+                        <td>@Html.DisplayFor(modelItem => item.mobile)</td>
                         <td>
+                            @if (item.country == "0")
+                            {
+                                <p>India</p>
+                            }
+                            @if (item.country == "1") 
+                            {
+                                <p>Australia</p>
+                            }
+                            else
+                            {
+                            <p>France</p>
+                            }
+                        </td>
+                        <td>@Html.DisplayFor(modelItem => item.state)</td>
+                        <td>@Html.DisplayFor(modelItem => item.city)</td>
+                        <td> </td>
+                        <td>
+                            @if (item.enter_by == "0")
+                            {
+                                <p>CRM</p>
+                            }
+                            else
+                            {
+                                <p>Website</p>
+                            }
+                        </td>
+
+                        @*<td>
                             <a href="#"><i class="glyphicon glyphicon-edit" data-toggle="tooltip" title="Edit"></i> </a>
                             |
                             <a onclick="del(modelItem => item.party_code)" data-toggle="modal"><i class="glyphicon glyphicon-trash" data-toggle="tooltip" title="Delete"></i> </a>
-                        </td>
+                        </td>*@
 
                     </tr>
-                } *@
+                }
             </table>
         </div>
     </div>

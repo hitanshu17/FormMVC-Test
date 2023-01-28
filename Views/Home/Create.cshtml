@@ -6,7 +6,7 @@
 
 <br />
 
-<form id="party_master_form">
+<form id="form_data">
     <div class="form-row">
         <div class="form-group col-md-3">
             <label>Name</label>
@@ -14,7 +14,7 @@
         </div>
         <div class="form-group col-md-3">
             <label>E-Mail</label>
-            <input type="text" class="form-control" id="party_email" placeholder="Email">
+            <input type="text" class="form-control" id="email" placeholder="Email">
         </div>
         <div class="form-group col-md-3">
             <label>Address</label>
@@ -23,53 +23,121 @@
     </div>
     <div class="form-group">
         <label>Mobile No</label>
-        <input type="number" class="form-control" id="number" placeholder="Mobile Number">
+        <input type="number" class="form-control" id="mobile" placeholder="Mobile Number">
     </div>
 
     <div class="form-row">
-        <div class="form-group col-md-3">
+        <div class="form-group col-md-2">
             <label>Country</label> <br />
-            @Html.DropDownList("Country", (IEnumerable<SelectListItem>)ViewBag.Countries)
-            @*<input type="text" class="form-control" id="party_aadhar" placeholder="Country">*@
+            @Html.DropDownList("Country", (IEnumerable<SelectListItem>)ViewBag.Countries, htmlAttributes: new { @class = "form-control", id = "country" })
+            @*<input type="text" class="form-control" id="country" placeholder="Country">*@
         </div>
-        <div class="form-group col-md-3">
-            <label>State</label>
-            <input type="text" class="form-control" id="party_pan" placeholder="State">
+        <div class="form-group col-md-2">
+            @*<label>State</label>
+            <input type="text" class="form-control" id="state" placeholder="State">*@
+            <label for="state">State</label>
+            <select class="form-control" id="state" name="state">
+                <option value="">Select a state</option>
+            </select>
         </div>
         <div class="form-group col-md-3">
             <label>City</label>
-            <input type="text" class="form-control" id="party_gst" placeholder="City">
+            <input type="text" class="form-control" id="city" placeholder="City">
         </div>
         <div class="form-group col-md-3">
             <label>Course</label> <br />
-            @Html.ListBox("ListBoxName", (IEnumerable<SelectListItem>)ViewBag.courses, new { multiple = "multiple" })
-            @*<input type="text" class="form-control" id="party_gst" placeholder="GST No">*@
+            @Html.ListBox("ListBoxName", (IEnumerable<SelectListItem>)ViewBag.courses, htmlAttributes: new { @class = "form-control", id = "course", multiple = "multiple" })
+            @*<input type="text" class="form-control" id="course" placeholder="Course">*@
         </div>
-    </div>
-    <div class="form-row">
         <div class="form-group col-md-2">
             <label for="inputState">Enter By</label>
-            <select id="bank_type" class="form-control">
+            <select id="enter_by" class="form-control">
                 <option selected value="0">CRM</option>
                 <option value="1">Website</option>
             </select>
         </div>
     </div>
-    <div class="col-12 text-center mt-3">
+    <div class="form-group col-md-2">
         <button class="btn btn-primary" type="submit" onclick="Save()">Submit</button>
     </div>
 </form>
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+
 <script>
+
+    $(document).ready(function () {
+
+        //code to check email id already present in database or not
+
+    $("#email").change(function () {
+       $.ajax({
+       type: "GET",
+       url: "@Url.Action("checkEmail", "Home")",
+       data: { email: email },
+       success: function (isExist) {
+            if (isExist) {
+                alert("Email already exist");
+            } else {
+                alert("Email doesn't' exist");
+            }
+       },
+       error: function (error) {
+             alert("Error: " + error);
+       }
+    });
+    });
+
+         //code to get state name according to country
+
+    $("#country").change(function () {
+        let country = $(this).val();
+        debugger;
+        $.ajax({
+            type: "GET",
+            url: "@Url.Action("GetStates", "Home")",
+            data: { country: country },
+            success: function (response) {
+                $("#state").empty();
+                $("#state").append("<option value=''>Select a state</option>");
+                $.each(response, function (index, value) {
+                    $("#state").append("<option value='" + value.Value + "'>" + value.Text + "</option>");
+                });
+            },
+            error: function (error) {
+                alert("Error: " + error);
+            }
+        });
+    });
+
+    });
+
+    //Code to save form data
 
     function Save() {
         //alert("Start");
 
         let name = $('#name').val();
+        let email = $('#email').val();
+        let address = $('#address').val();
+        let mobile = $('#mobile').val();
+        let country = $('#country').val();
+        let state = $('#state').val();
+        let city = $('#city').val();
+        let course = $('#course').val();
+        let enter_by = $('#enter_by').val();
 
         var data = {
 
             name: name,
+            email: email,
+            address: address,
+            mobile: mobile,
+            country: country,
+            state: state,
+            city: city,
+            course: course,
+            enter_by: enter_by,
 
         };
         console.log(data);

@@ -51,6 +51,8 @@ H:\Hitanshu\.NET\FormMVC\FormMVC\bin\roslyn\vbc.rsp
 H:\Hitanshu\.NET\FormMVC\FormMVC\bin\roslyn\VBCSCompiler.exe
 H:\Hitanshu\.NET\FormMVC\FormMVC\bin\roslyn\VBCSCompiler.exe.config
 H:\Hitanshu\.NET\FormMVC\FormMVC\bin\Antlr3.Runtime.dll
+H:\Hitanshu\.NET\FormMVC\FormMVC\bin\EntityFramework.dll
+H:\Hitanshu\.NET\FormMVC\FormMVC\bin\EntityFramework.SqlServer.dll
 H:\Hitanshu\.NET\FormMVC\FormMVC\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
 H:\Hitanshu\.NET\FormMVC\FormMVC\bin\Microsoft.Web.Infrastructure.dll
 H:\Hitanshu\.NET\FormMVC\FormMVC\bin\Newtonsoft.Json.dll
@@ -62,6 +64,8 @@ H:\Hitanshu\.NET\FormMVC\FormMVC\bin\System.Web.WebPages.Deployment.dll
 H:\Hitanshu\.NET\FormMVC\FormMVC\bin\System.Web.WebPages.dll
 H:\Hitanshu\.NET\FormMVC\FormMVC\bin\System.Web.WebPages.Razor.dll
 H:\Hitanshu\.NET\FormMVC\FormMVC\bin\WebGrease.dll
+H:\Hitanshu\.NET\FormMVC\FormMVC\bin\EntityFramework.xml
+H:\Hitanshu\.NET\FormMVC\FormMVC\bin\EntityFramework.SqlServer.xml
 H:\Hitanshu\.NET\FormMVC\FormMVC\bin\System.Web.Helpers.xml
 H:\Hitanshu\.NET\FormMVC\FormMVC\bin\System.Web.Mvc.xml
 H:\Hitanshu\.NET\FormMVC\FormMVC\bin\System.Web.Optimization.xml
