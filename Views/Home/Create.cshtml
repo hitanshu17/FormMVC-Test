@@ -1,0 +1,90 @@
+﻿@{
+    ViewBag.Title = "Create";
+}
+@*<h3>@ViewBag.Message</h3>*@
+
+
+<br />
+
+<form id="party_master_form">
+    <div class="form-row">
+        <div class="form-group col-md-3">
+            <label>Name</label>
+            <input type="text" class="form-control" id="name" placeholder="Enter Name">
+        </div>
+        <div class="form-group col-md-3">
+            <label>E-Mail</label>
+            <input type="text" class="form-control" id="party_email" placeholder="Email">
+        </div>
+        <div class="form-group col-md-3">
+            <label>Address</label>
+            <input type="text" class="form-control" id="address" placeholder="Address">
+        </div>
+    </div>
+    <div class="form-group">
+        <label>Mobile No</label>
+        <input type="number" class="form-control" id="number" placeholder="Mobile Number">
+    </div>
+
+    <div class="form-row">
+        <div class="form-group col-md-3">
+            <label>Country</label> <br />
+            @Html.DropDownList("Country", (IEnumerable<SelectListItem>)ViewBag.Countries)
+            @*<input type="text" class="form-control" id="party_aadhar" placeholder="Country">*@
+        </div>
+        <div class="form-group col-md-3">
+            <label>State</label>
+            <input type="text" class="form-control" id="party_pan" placeholder="State">
+        </div>
+        <div class="form-group col-md-3">
+            <label>City</label>
+            <input type="text" class="form-control" id="party_gst" placeholder="City">
+        </div>
+        <div class="form-group col-md-3">
+            <label>Course</label> <br />
+            @Html.ListBox("ListBoxName", (IEnumerable<SelectListItem>)ViewBag.courses, new { multiple = "multiple" })
+            @*<input type="text" class="form-control" id="party_gst" placeholder="GST No">*@
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-2">
+            <label for="inputState">Enter By</label>
+            <select id="bank_type" class="form-control">
+                <option selected value="0">CRM</option>
+                <option value="1">Website</option>
+            </select>
+        </div>
+    </div>
+    <div class="col-12 text-center mt-3">
+        <button class="btn btn-primary" type="submit" onclick="Save()">Submit</button>
+    </div>
+</form>
+
+<script>
+
+    function Save() {
+        //alert("Start");
+
+        let name = $('#name').val();
+
+        var data = {
+
+            name: name,
+
+        };
+        console.log(data);
+
+        //alert("Half Way Through");
+
+        $.ajax({
+            url: '/Home/Save',
+            type: 'POST',
+            data: JSON.stringify(data),
+            dataType: 'JSON',
+            contentType: 'application/json',
+        });
+
+        //window.location.reload();
+    }
+
+</script>
