@@ -34,7 +34,7 @@
         </div>
         <div class="form-group col-md-2">
             @*<label>State</label>
-            <input type="text" class="form-control" id="state" placeholder="State">*@
+                <input type="text" class="form-control" id="state" placeholder="State">*@
             <label for="state">State</label>
             <select class="form-control" id="state" name="state">
                 <option value="">Select a state</option>
@@ -42,11 +42,11 @@
         </div>
         <div class="form-group col-md-3">
             <label>City</label>
-            <input type="text" class="form-control" id="city" placeholder="City">
+            <input type="text" class="form-control" id="autocomplete" placeholder="City">
         </div>
         <div class="form-group col-md-3">
             <label>Course</label> <br />
-            @Html.ListBox("ListBoxName", (IEnumerable<SelectListItem>)ViewBag.courses, htmlAttributes: new { @class = "form-control", id = "course", multiple = "multiple" })
+            @Html.ListBox("ListBoxName", (IEnumerable<SelectListItem>)ViewBag.courses, htmlAttributes: new { @class = "form-control required", id = "course", multiple = "multiple" })
             @*<input type="text" class="form-control" id="course" placeholder="Course">*@
         </div>
         <div class="form-group col-md-2">
@@ -58,23 +58,33 @@
         </div>
     </div>
     <div class="form-group col-md-2">
-        <button class="btn btn-primary" type="submit" onclick="Save()">Submit</button>
+        <button class="btn btn-primary" type="button" onclick="Save()">Submit</button>
     </div>
 </form>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=API_KEY&libraries=places"></script>
+
 
 <script>
 
+    //code to autofill city col values
+    var autocomplete = new google.maps.places.Autocomplete(document.getElementById("autocomplete"));
+    google.maps.event.addListener(autocomplete, 'place_changed', function () {
+        var place = autocomplete.getPlace();
+    });
+
     $(document).ready(function () {
 
-        //code to check email id already present in database or not
+    //code to check email id already present in database or not
 
     $("#email").change(function () {
+       let email = $(this).val();
        $.ajax({
        type: "GET",
        url: "@Url.Action("checkEmail", "Home")",
        data: { email: email },
+       //console.log(data),
        success: function (isExist) {
             if (isExist) {
                 alert("Email already exist");
@@ -88,11 +98,11 @@
     });
     });
 
-         //code to get state name according to country
+    //code to get state name according to country
 
     $("#country").change(function () {
         let country = $(this).val();
-        debugger;
+      //  debugger;
         $.ajax({
             type: "GET",
             url: "@Url.Action("GetStates", "Home")",
@@ -136,7 +146,7 @@
             country: country,
             state: state,
             city: city,
-            course: course,
+            courses: course,
             enter_by: enter_by,
 
         };
@@ -150,6 +160,17 @@
             data: JSON.stringify(data),
             dataType: 'JSON',
             contentType: 'application/json',
+            success: function (result) {
+                if (result) {
+                    window.location.reload();
+                }
+                else {
+                    alert('Not Saved!');
+                }
+            },
+            error: function (err) {
+
+            }
         });
 
         //window.location.reload();

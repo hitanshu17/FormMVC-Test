@@ -1,4 +1,4 @@
-﻿@model IEnumerable<FormMVC.Models.form_master>
+﻿@model IEnumerable<FormMVC.ViewModel.FormModel>
 @{
     ViewBag.Title = "Home Page";
 }
@@ -49,13 +49,13 @@
 </style>
 
 
-
-
 <div class="content-wrapper">
 
 
     <div class="page-content fade-in-up">
 
+        <a href="/Home/Create" class="btn btn-danger"> Add Record</a>
+        <br /><br />
         <div class="ibox">
             <div class="ibox-head btn-primary">
                 <div class="ibox-title" style="color:white;text-align:center">
@@ -66,6 +66,7 @@
             <table id="Grower" class="table" cellspacing="0" width="100%">
                 <thead class="btn-primary">
                     <tr style="text-align:center;">
+                        @*<th>ID</th>*@
                         <th>Name</th>
                         <th>Email</th>
                         <th>Address</th>
@@ -75,12 +76,14 @@
                         <th>City</th>
                         <th>Course</th>
                         <th>Entered Via </th>
+                        @*<th>Action</th>*@
                     </tr>
                 </thead>
 
                 @foreach (var item in Model)
                 {
                     <tr style="text-align:center">
+                        @*<td>@Html.DisplayFor(modelItem => item.id)</td>*@
                         <td>@Html.DisplayFor(modelItem => item.name)</td>
                         <td>@Html.DisplayFor(modelItem => item.email)</td>
                         <td>@Html.DisplayFor(modelItem => item.address)</td>
@@ -90,18 +93,44 @@
                             {
                                 <p>India</p>
                             }
-                            @if (item.country == "1") 
+                            @if (item.country == "1")
                             {
                                 <p>Australia</p>
                             }
                             else
                             {
-                            <p>France</p>
+                                <p>France</p>
                             }
                         </td>
                         <td>@Html.DisplayFor(modelItem => item.state)</td>
                         <td>@Html.DisplayFor(modelItem => item.city)</td>
-                        <td> </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.coursesView)
+                            @*@if (item.coursesView == "0")
+                            {
+                                <p>BTECH</p>
+                            }
+                            @if (item.coursesView == "1")
+                            {
+                                <p>BCA</p>
+                            }
+                            @if (item.coursesView == "2")
+                            {
+                                <p>BCOM</p>
+                            }
+                            @if (item.coursesView == "3")
+                            {
+                                <p>BBA</p>
+                            }
+                            @if (item.coursesView == "4")
+                            {
+                                <p>LLB</p>
+                            }
+                            else
+                            {
+                                <p>NA</p>
+                            }*@
+                        </td>
                         <td>
                             @if (item.enter_by == "0")
                             {
@@ -114,9 +143,7 @@
                         </td>
 
                         @*<td>
-                            <a href="#"><i class="glyphicon glyphicon-edit" data-toggle="tooltip" title="Edit"></i> </a>
-                            |
-                            <a onclick="del(modelItem => item.party_code)" data-toggle="modal"><i class="glyphicon glyphicon-trash" data-toggle="tooltip" title="Delete"></i> </a>
+                            <a onclick="del(modelItem => item.id)" data-toggle="modal"><i class="glyphicon glyphicon-trash" data-toggle="tooltip" title="Delete"></i> </a>
                         </td>*@
 
                     </tr>
@@ -125,3 +152,69 @@
         </div>
     </div>
 </div>
+
+
+@*uncomment below code to view in data tables*@
+
+@*<link href="~/Content/DataTables/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <script src="~/Scripts/DataTables/jquery.dataTables.min.js"></script>*@
+
+@*<table id="dataTable">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Address</th>
+                <th>Mobile</th>
+                <th>Country</th>
+                <th>State</th>
+                <th>City</th>
+                <th>Course</th>
+                <th>Entered Via </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>item.name</td>
+                    <td>item.email)</td>
+                    <td>item.address)</td>
+                    <td>item.mobile)</td>
+                    <td>
+                        @if (item.country == "0")
+                        {
+                            <p>India</p>
+                        }
+                        @if (item.country == "1")
+                        {
+                            <p>Australia</p>
+                        }
+                        else
+                        {
+                            <p>France</p>
+                        }
+                    </td>
+                    <td>item.state</td>
+                    <td>item.city</td>
+                    <td> </td>
+                    <td>
+                        @if (item.enter_by == "0")
+                        {
+                            <p>CRM</p>
+                        }
+                        else
+                        {
+                            <p>Website</p>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <script>
+        $(document).ready(function () {
+            $('#dataTable').DataTable();
+        });
+    </script>*@

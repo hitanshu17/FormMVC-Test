@@ -1,4 +1,5 @@
 ﻿using FormMVC.Models;
+using FormMVC.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -12,7 +13,16 @@ namespace FormMVC.Controllers
         private accountEntities db = new accountEntities();
         public ActionResult Index()
         {
-            return View(db.form_master.ToList());
+            List<form_master> data = db.form_master.ToList();
+            List<FormModel> model = new List<FormModel>();
+            foreach (var item in data)
+            {
+                List<form_detail> detail = db.form_detail.Where(p => p.form_id == item.id).ToList();
+                var d = detail.Select(p => p.course.ToString()).ToArray();
+                model.Add(new FormModel { id = item.id, name = item.name, email = item.email, address = item.address, mobile = item.mobile, country = item.country, state = item.state, city = item.city, coursesView = string.Join(",", d) });
+            }
+            return View(model);
+            //return View(db.form_master.ToList());
             //return View();
         }
 
@@ -86,8 +96,10 @@ namespace FormMVC.Controllers
 
         }
 
+
+
         [HttpPost]
-        public JsonResult Save(form_master fm, form_detail fd)
+        public JsonResult Save(FormModel fm)
         {
             try
             {
@@ -97,46 +109,58 @@ namespace FormMVC.Controllers
                 c_ns += "MultipleActiveResultSets=True;";
                 using (SqlConnection connection = new SqlConnection(c_ns))
                 {
-                    String query = "INSERT INTO FORM_MASTER (name,email,address,mobile,country,state,city,enter_by) VALUES (@name,@email,@address,@mobile,@country,@state,@city,@enter_by)";
+                    String query = "INSERT INTO FORM_MASTER (name,email,address,mobile,country,state,city,enter_by) VALUES (@name,@email,@address,@mobile,@country,@state,@city,@enter_by); SELECT SCOPE_IDENTITY();";
 
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
                         command.Parameters.AddWithValue("@name", fm.name);
                         command.Parameters.AddWithValue("@email", fm.email ?? " ");
-                        command.Parameters.AddWithValue("@address", fm.address ?? " ");
+                        command.Parameters.AddWithValue("@address", fm.address ?? " "); //string.Empty
                         command.Parameters.AddWithValue("@mobile", fm.mobile ?? 0);
                         command.Parameters.AddWithValue("@country", fm.country ?? " ");
                         command.Parameters.AddWithValue("@state", fm.state ?? " ");
                         command.Parameters.AddWithValue("@city", fm.city ?? " ");
                         command.Parameters.AddWithValue("@enter_by", fm.enter_by ?? " ");
                         connection.Open();
-                        result = command.ExecuteNonQuery();
-                    }
-                    /*if (result > 0)
-                    {
-                        foreach (var it in fd)
+                        //result = command.ExecuteNonQuery();
+                        result = Convert.ToInt32(command.ExecuteScalar());
+                        if (result > 0)
                         {
-                            it.balance_qty = it.item_qty;
-                            query = "INSERT INTO FORM_DETAIL (course) VALUES (@course)";
-                            using (SqlCommand command = new SqlCommand(query, connection))
+                            foreach (var course in fm.courses)
                             {
-                                //command.Parameters.AddWithValue("@form_id", fm.name);
-                                command.Parameters.AddWithValue("@course", fd.course);
-                                connection.Open();
-                                result = command.ExecuteNonQuery();
+                                command.Parameters.Clear();
+                                query = "INSERT INTO FORM_DETAIL (form_id,course) VALUES (@form_id,@course)";
+                                command.CommandText = query;
+                                command.Parameters.AddWithValue("@form_id", result);
+                                command.Parameters.AddWithValue("@course", course);
+                                command.ExecuteNonQuery();
                             }
-                        }
-                        return Ok(true);
-                    }*/
 
+                            return Json(true);
+                        }
+                    }
                 }
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
             }
-            return new JsonResult { };
+            return Json(false);
         }
+
+        public ActionResult Help()
+        {
+            return View();
+
+        }
+
+        /*public JsonResult delete(String pcode)
+        {
+            form_master delete = db.form_master.Find(pcode);
+            db.form_master.Remove(delete);
+            db.SaveChanges();
+            return Json(delete);
+        }*/
 
     }
 }
